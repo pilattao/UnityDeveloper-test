@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    public Transform firePoint;
+    public GameObject projectilePrefab;
 
     // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        StartCoroutine("Shoot");
+    }
+
+    IEnumerator Shoot()
+    {
+        for (; ; )
+        {
+            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }
