@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour // Object B
     void Awake()
     {
         enemyRB = GetComponent<Rigidbody2D>();
-        enemyVelocity = 1.5f;
+        enemyVelocity = 0f;
         enemyRB.velocity = new Vector2(-enemyVelocity, 0.0f);
     }
 
