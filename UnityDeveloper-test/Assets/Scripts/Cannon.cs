@@ -2,22 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cannon : MonoBehaviour
+public class Cannon : MonoBehaviour // Object A
 {
-    public GameObject projectilePrefab;
+    public Rigidbody2D projectile;
 
-    GameObject enemy;
-    GameObject tower;
-    Transform firePoint;
-    float shootingRange;
+    GameObject enemy; // Object B
+    GameObject firePoint; // Object A
+    float shootingRange; // Object A detection range
+    float projectileWeight; // Mass of projectile
+    float enemyPosition; // Current position of enemy (object B)
+    float cannonAngle; // Angle for projectile launch
+    float enemySpeed; // Velocity of object B
+    float projectileSpeed; // Velocity for projectile launch
+    float cannonNextShot; // Time for next shot
+    float cannonCooldown; // Cooldown object A cannon
 
-    // Update is called once per frame
+    // Start is called before the first frame update, initialization of our main object A variables
     void Start()
     {
         enemy = GameObject.FindGameObjectWithTag("Enemy");
-        tower = GameObject.FindGameObjectWithTag("Tower");
-        firePoint = gameObject.transform.Find("FirePoint");
+        firePoint = gameObject;
         shootingRange = 13f;
+        projectileWeight = projectile.mass; // Getting projectile mass
+        cannonAngle = 45; //TMP
+        projectileSpeed = 5; //TMP
+        cannonNextShot = Time.time;
+        cannonCooldown = 1f;
+        enemySpeed = enemy.GetComponent<Rigidbody2D>().velocity.magnitude;
         StartCoroutine("Shoot");
     }
 
@@ -25,12 +36,18 @@ public class Cannon : MonoBehaviour
     {
         for (; ; )
         {
-            Debug.Log(Vector2.Distance(enemy.transform.position,tower.transform.position));
-            if (Vector2.Distance(enemy.transform.position, tower.transform.position) <= shootingRange)
-            { 
-                Instantiate(projectilePrefab, firePoint.position, firePoint.rotation); 
+            enemyPosition = Vector2.Distance(enemy.transform.position, firePoint.transform.position); // Getting object B current position
+            if (enemyPosition <= shootingRange)
+            {
+                if (Time.time > cannonNextShot)
+                {
+                    firePoint.transform.rotation = Quaternion.Euler(0, 0, cannonAngle); // Setting our cannon angle
+                    Rigidbody2D p = Instantiate(projectile, firePoint.transform.position, firePoint.transform.rotation);
+                    p.velocity = transform.right * projectileSpeed; // setting our 
+                    cannonNextShot = Time.time + cannonCooldown;
+                }
             }
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 }

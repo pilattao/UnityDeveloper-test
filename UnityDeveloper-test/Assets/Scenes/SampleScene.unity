@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 189161912}
   - component: {fileID: 189161911}
-  - component: {fileID: 189161910}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Tower
@@ -141,19 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &189161910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189161909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c61ab730a59e845a78ad638683fa07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 6347965362970429355, guid: 5b73e2d9658f7e246a2c599587a7e332, type: 3}
 --- !u!212 &189161911
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -557,13 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d9e13d0b81745478a62306f6831b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1775504220}
-  speed: 1.5
-  MoveRight: 0
   sprite_right: {fileID: 21300000, guid: 95a81e11dab260e4491c1cb4d5f5ae54, type: 3}
-  sprite_isRight: 0
   sprite_left: {fileID: 21300000, guid: 8c7a13a35a86dc44ab40de9d93374d78, type: 3}
-  sprite_isLeft: 0
 --- !u!50 &1775504224
 Rigidbody2D:
   serializedVersion: 4
@@ -578,13 +559,13 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1860985783
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,9 +575,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1860985784}
+  - component: {fileID: 1860985785}
   m_Layer: 0
-  m_Name: FirePoint
-  m_TagString: Untagged
+  m_Name: Firepoint
+  m_TagString: Firepoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -615,6 +597,19 @@ Transform:
   m_Father: {fileID: 189161912}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 36.658}
+--- !u!114 &1860985785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860985783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c61ab730a59e845a78ad638683fa07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 5395664601611369644, guid: 5b73e2d9658f7e246a2c599587a7e332, type: 3}
 --- !u!1 &2007452031
 GameObject:
   m_ObjectHideFlags: 0
