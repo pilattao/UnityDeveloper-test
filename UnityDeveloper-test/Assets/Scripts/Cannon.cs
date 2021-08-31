@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour // Object A
 {
-    public Rigidbody2D projectile;
+    public GameObject projectile;
 
+    Enemy en;
+    Rigidbody2D proj;
     GameObject enemy; // Object B
     GameObject firePoint; // Object A
     public float shootingRange { get; set; } // Object A detection range
     float projectileWeight; // Mass of projectile
     Vector2 enemyPosition; // Current position of enemy (object B)
     public float cannonAngle { get; set; } // Angle for projectile launch
-    //float enemySpeed; // Speed of object B
-    Vector2 enemySpeed;
+    Vector2 enemySpeed; // Speed of object B
     float projectileSpeed; // Velocity for projectile launch
     float cannonNextShot; // Time for next shot
     public float cannonCooldown { get; set; } // Cooldown object A cannon
@@ -23,15 +24,13 @@ public class Cannon : MonoBehaviour // Object A
     // Start is called before the first frame update, initialization of our main object A variables
     void Start()
     {
+        proj = projectile.GetComponent<Rigidbody2D>();
         enemy = GameObject.FindGameObjectWithTag("Enemy");
+        en = enemy.GetComponent<Enemy>();
         firePoint = gameObject;
-        shootingRange = 13f;
-        projectileWeight = projectile.mass; // Getting projectile mass
-        cannonAngle = 45;
+        projectileWeight = proj.mass;
         cannonNextShot = Time.time;
-        cannonCooldown = 1f;
         StartCoroutine("Shoot");
-        projectileSpray = 1;
     }
 
     IEnumerator Shoot()
@@ -39,29 +38,28 @@ public class Cannon : MonoBehaviour // Object A
         for (; ; )
         {
             enemyPosition = enemy.transform.position;
-           // Debug.Log("Enemy Position "+enemyPosition);
             enemyDist = Vector2.Distance(enemy.transform.position, firePoint.transform.position); // Getting object B current position
             if (enemyDist <= shootingRange)
             {
                 if (Time.time > cannonNextShot)
                 {
+                    enemyPosition = enemy.transform.position;
                     enemySpeed = enemy.GetComponent<Rigidbody2D>().velocity;
                     firePoint.transform.rotation = Quaternion.Euler(0, 0, cannonAngle); // Setting our cannon angle
-                    Debug.Log("Enemy Velocity "+enemySpeed);
-                    float projectileSpeedX = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.x).x;
-                    float projectileSpeedY = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.y).y;
+                    float projectileSpeedX = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.x, projectileWeight, en.MoveRight).x;
+                    float projectileSpeedY = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.y, projectileWeight, en.MoveRight).y;
                     projectileSpeed = Mathf.Sqrt((projectileSpeedX * projectileSpeedX) + (projectileSpeedY * projectileSpeedY));
-                    Rigidbody2D p = Instantiate(projectile, firePoint.transform.position, firePoint.transform.rotation);
+                    Rigidbody2D p = Instantiate(proj, firePoint.transform.position, firePoint.transform.rotation);
                     p.velocity = transform.right * projectileSpeed; // setting our 
                     cannonNextShot = Time.time + cannonCooldown;
                 }
             }
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 
     // Function for finding optimal velocity of projectile
-    Vector2 VelocityCalc(Vector2 destination, float angle, float enemySpeed)
+    Vector2 VelocityCalc(Vector2 destination, float angle, float enemySpeed, float projectileMass, bool MoveRight)
     {
         Vector2 dir = new Vector2(destination.x - transform.position.x, destination.y - transform.position.y);
         float height = dir.y;
@@ -71,8 +69,15 @@ public class Cannon : MonoBehaviour // Object A
         dir.y = dist * Mathf.Tan(a);
         dist += height / Mathf.Tan(a);
         float velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-        float time = (velocity * 2 * Mathf.Sin(a*1.8f)) / Physics2D.gravity.y;
-        dir = new Vector2((destination.x - enemySpeed*time)*Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
+        float time = (velocity * 2 * Mathf.Sin(a*2f)) / (Physics2D.gravity.y);
+        if (MoveRight)
+        {
+            dir = new Vector2((destination.x - enemySpeed* Mathf.Tan(a*1.5f) * time) * Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
+        }
+        else
+        {
+            dir = new Vector2((destination.x - enemySpeed * Mathf.Tan(a) * time) * Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
+        }
         height = dir.y;
         dir.y = 0;
         dist = dir.magnitude;

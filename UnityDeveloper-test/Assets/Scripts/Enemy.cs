@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour // Object B
     SpriteRenderer spriteRenderer;
     public float enemySpeed { get; set; } // Speed of object B
     Rigidbody2D enemyRB;
-    bool MoveRight; // Bool variable for movement direction toggle
+    public bool MoveRight { get; private set; } // Bool variable for movement direction toggle
     bool sprite_isRight; // Bool variables for sprite direction toggle
     bool sprite_isLeft;
 
@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour // Object B
     void Awake()
     {
         enemyRB = GetComponent<Rigidbody2D>();
-        enemySpeed = 1.5f;
         enemyRB.velocity = new Vector2(-enemySpeed, 0.0f);
     }
 
@@ -35,7 +34,6 @@ public class Enemy : MonoBehaviour // Object B
         if (MoveRight)
         {
             sprite_isLeft = false;
-            //transform.Translate(2 * Time.deltaTime * enemyVelocity, 0, 0);
             enemyRB.velocity = new Vector2(enemySpeed, 0.0f);
             if(!sprite_isRight)
             {
@@ -46,7 +44,6 @@ public class Enemy : MonoBehaviour // Object B
         else
         {
             sprite_isRight = false;
-            //transform.Translate(-2 * Time.deltaTime * enemyVelocity, 0, 0);
             enemyRB.velocity = new Vector2(-enemySpeed, 0.0f);
             if (!sprite_isLeft)
             {

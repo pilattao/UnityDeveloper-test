@@ -10,38 +10,56 @@ public class Menu : MonoBehaviour
     public GameObject SprayModifierText;
     public GameObject TowerRangeText;
     public GameObject CannonCooldownText;
+    Enemy enemy;
+    Cannon cannon;
+
+    private void Start()
+    {
+        enemy = FindObjectOfType<Enemy>();
+        cannon = FindObjectOfType<Cannon>();
+
+        enemy.enemySpeed = 3;
+        MovementSpeedText.GetComponent<Text>().text = enemy.enemySpeed.ToString();
+
+        cannon.cannonAngle = 45;
+        CannonAngleText.GetComponent<Text>().text = cannon.cannonAngle.ToString();
+
+        cannon.projectileSpray = 1;
+        SprayModifierText.GetComponent<Text>().text = cannon.projectileSpray.ToString();
+
+        cannon.shootingRange = 13;
+        TowerRangeText.GetComponent<Text>().text = cannon.shootingRange.ToString();
+
+        cannon.cannonCooldown = 0;
+        CannonCooldownText.GetComponent<Text>().text = cannon.cannonCooldown.ToString();
+    }
 
     public void SetMovementSpeed(float speed)
     {
-        Enemy enemy = FindObjectOfType<Enemy>();
         enemy.enemySpeed = speed;
         MovementSpeedText.GetComponent<Text>().text = speed.ToString();
     }
 
     public void SetCannonAngle(float angle)
     {
-        Cannon cannon = FindObjectOfType<Cannon>();
         cannon.cannonAngle = angle;
         CannonAngleText.GetComponent<Text>().text = angle.ToString();
     }
 
     public void SetSprayModifier(float spraymod)
     {
-        Cannon cannon = FindObjectOfType<Cannon>();
         cannon.projectileSpray = spraymod;
         SprayModifierText.GetComponent<Text>().text = spraymod.ToString();
     }
 
     public void SetTowerRange(float range)
     {
-        Cannon cannon = FindObjectOfType<Cannon>();
         cannon.shootingRange = range;
         TowerRangeText.GetComponent<Text>().text = range.ToString();
     }
 
     public void SetCannonCooldown(float cooldown)
     {
-        Cannon cannon = FindObjectOfType<Cannon>();
         cannon.cannonCooldown = cooldown;
         CannonCooldownText.GetComponent<Text>().text = cooldown.ToString();
     }
