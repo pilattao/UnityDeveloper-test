@@ -8,16 +8,17 @@ public class Cannon : MonoBehaviour // Object A
 
     GameObject enemy; // Object B
     GameObject firePoint; // Object A
-    float shootingRange; // Object A detection range
+    public float shootingRange { get; set; } // Object A detection range
     float projectileWeight; // Mass of projectile
     Vector2 enemyPosition; // Current position of enemy (object B)
-    float cannonAngle; // Angle for projectile launch
+    public float cannonAngle { get; set; } // Angle for projectile launch
     //float enemySpeed; // Speed of object B
     Vector2 enemySpeed;
     float projectileSpeed; // Velocity for projectile launch
     float cannonNextShot; // Time for next shot
-    float cannonCooldown; // Cooldown object A cannon
+    public float cannonCooldown { get; set; } // Cooldown object A cannon
     float enemyDist; // Distantion to object B from object A
+    public float projectileSpray { get; set; } // Projectile spray modifier
 
     // Start is called before the first frame update, initialization of our main object A variables
     void Start()
@@ -26,10 +27,11 @@ public class Cannon : MonoBehaviour // Object A
         firePoint = gameObject;
         shootingRange = 13f;
         projectileWeight = projectile.mass; // Getting projectile mass
-        cannonAngle = 25; //TMP
+        cannonAngle = 45;
         cannonNextShot = Time.time;
         cannonCooldown = 1f;
         StartCoroutine("Shoot");
+        projectileSpray = 1;
     }
 
     IEnumerator Shoot()
@@ -70,7 +72,7 @@ public class Cannon : MonoBehaviour // Object A
         dist += height / Mathf.Tan(a);
         float velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         float time = (velocity * 2 * Mathf.Sin(a*1.8f)) / Physics2D.gravity.y;
-        dir = new Vector2((destination.x - enemySpeed*time) - transform.position.x, destination.y - transform.position.y);
+        dir = new Vector2((destination.x - enemySpeed*time)*Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
         height = dir.y;
         dir.y = 0;
         dist = dir.magnitude;

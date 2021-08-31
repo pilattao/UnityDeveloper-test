@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour // Object B
     public Sprite sprite_left;
 
     SpriteRenderer spriteRenderer;
-    float enemySpeed; // Speed of object B
+    public float enemySpeed { get; set; } // Speed of object B
     Rigidbody2D enemyRB;
     bool MoveRight; // Bool variable for movement direction toggle
     bool sprite_isRight; // Bool variables for sprite direction toggle
