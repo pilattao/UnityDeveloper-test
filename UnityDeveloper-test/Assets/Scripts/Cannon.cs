@@ -26,7 +26,7 @@ public class Cannon : MonoBehaviour // Object A
         firePoint = gameObject;
         shootingRange = 13f;
         projectileWeight = projectile.mass; // Getting projectile mass
-        cannonAngle = 45; //TMP
+        cannonAngle = 25; //TMP
         cannonNextShot = Time.time;
         cannonCooldown = 1f;
         StartCoroutine("Shoot");
@@ -51,7 +51,7 @@ public class Cannon : MonoBehaviour // Object A
                     projectileSpeed = Mathf.Sqrt((projectileSpeedX * projectileSpeedX) + (projectileSpeedY * projectileSpeedY));
                     Rigidbody2D p = Instantiate(projectile, firePoint.transform.position, firePoint.transform.rotation);
                     p.velocity = transform.right * projectileSpeed; // setting our 
-                    //cannonNextShot = Time.time + cannonCooldown;
+                    cannonNextShot = Time.time + cannonCooldown;
                 }
             }
             yield return new WaitForSeconds(.1f);
@@ -69,18 +69,15 @@ public class Cannon : MonoBehaviour // Object A
         dir.y = dist * Mathf.Tan(a);
         dist += height / Mathf.Tan(a);
         float velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-        //return velocity * dir.normalized;
-        /*Vector2 vel = velocity * dir.normalized;
-        //float time = (vel.y + Mathf.Sqrt(vel.y * vel.y + 2  * (transform.position.y - destination.y))) / enemySpeed;
-        float time = (velocity * 2 * Mathf.Sin(a*2)) / Physics2D.gravity.y;
-        dir = new Vector2((destination.x + enemySpeed*time) - transform.position.x, destination.y - transform.position.y);
+        float time = (velocity * 2 * Mathf.Sin(a*1.8f)) / Physics2D.gravity.y;
+        dir = new Vector2((destination.x - enemySpeed*time) - transform.position.x, destination.y - transform.position.y);
         height = dir.y;
         dir.y = 0;
         dist = dir.magnitude;
         a = angle * Mathf.Deg2Rad;
         dir.y = dist * Mathf.Tan(a);
         dist += height / Mathf.Tan(a);
-        velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));*/
+        velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         return velocity * dir.normalized;
     }
 }

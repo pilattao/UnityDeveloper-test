@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour // Object B
     public Sprite sprite_left;
 
     SpriteRenderer spriteRenderer;
-    float enemyVelocity; // Speed of object B
+    float enemySpeed; // Speed of object B
     Rigidbody2D enemyRB;
     bool MoveRight; // Bool variable for movement direction toggle
     bool sprite_isRight; // Bool variables for sprite direction toggle
@@ -18,8 +18,8 @@ public class Enemy : MonoBehaviour // Object B
     void Awake()
     {
         enemyRB = GetComponent<Rigidbody2D>();
-        enemyVelocity = 0f;
-        enemyRB.velocity = new Vector2(-enemyVelocity, 0.0f);
+        enemySpeed = 1.5f;
+        enemyRB.velocity = new Vector2(-enemySpeed, 0.0f);
     }
 
     // Start is called before the first frame update, initialization of our main object B variables
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour // Object B
         {
             sprite_isLeft = false;
             //transform.Translate(2 * Time.deltaTime * enemyVelocity, 0, 0);
-            enemyRB.velocity = new Vector2(enemyVelocity, 0.0f);
+            enemyRB.velocity = new Vector2(enemySpeed, 0.0f);
             if(!sprite_isRight)
             {
                 spriteRenderer.sprite = sprite_right;
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour // Object B
         {
             sprite_isRight = false;
             //transform.Translate(-2 * Time.deltaTime * enemyVelocity, 0, 0);
-            enemyRB.velocity = new Vector2(-enemyVelocity, 0.0f);
+            enemyRB.velocity = new Vector2(-enemySpeed, 0.0f);
             if (!sprite_isLeft)
             {
                 spriteRenderer.sprite = sprite_left;
