@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Projectiles : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
+        speed = 5f;
         rb.velocity = transform.right * speed;
+        rb.angularDrag = 50;
     }
 
     void OnTriggerEnter2D (Collider2D hitInfo)

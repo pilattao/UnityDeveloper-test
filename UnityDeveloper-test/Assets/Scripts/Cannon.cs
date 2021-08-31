@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour
 {
-
-    public Transform firePoint;
     public GameObject projectilePrefab;
+
+    GameObject enemy;
+    GameObject tower;
+    Transform firePoint;
+    float shootingRange;
 
     // Update is called once per frame
     void Start()
     {
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
+        tower = GameObject.FindGameObjectWithTag("Tower");
+        firePoint = gameObject.transform.Find("FirePoint");
+        shootingRange = 13f;
         StartCoroutine("Shoot");
     }
 
@@ -18,8 +25,12 @@ public class Cannon : MonoBehaviour
     {
         for (; ; )
         {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            yield return new WaitForSeconds(.1f);
+            Debug.Log(Vector2.Distance(enemy.transform.position,tower.transform.position));
+            if (Vector2.Distance(enemy.transform.position, tower.transform.position) <= shootingRange)
+            { 
+                Instantiate(projectilePrefab, firePoint.position, firePoint.rotation); 
+            }
+            yield return new WaitForSeconds(.5f);
         }
     }
 }

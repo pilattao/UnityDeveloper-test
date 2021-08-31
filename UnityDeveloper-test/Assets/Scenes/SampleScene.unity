@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 189161910}
   m_Layer: 0
   m_Name: Tower
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c61ab730a59e845a78ad638683fa07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePoint: {fileID: 1860985784}
   projectilePrefab: {fileID: 6347965362970429355, guid: 5b73e2d9658f7e246a2c599587a7e332, type: 3}
 --- !u!212 &189161911
 SpriteRenderer:
@@ -450,7 +449,7 @@ GameObject:
   - component: {fileID: 1775504224}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -514,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775504219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.4256, y: -3.19, z: 0}
+  m_LocalPosition: {x: 0, y: -3.19, z: 0}
   m_LocalScale: {x: 0.55197024, y: 0.637833, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -558,6 +557,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d9e13d0b81745478a62306f6831b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 1775504220}
+  speed: 1.5
+  MoveRight: 0
+  sprite_right: {fileID: 21300000, guid: 95a81e11dab260e4491c1cb4d5f5ae54, type: 3}
+  sprite_isRight: 0
+  sprite_left: {fileID: 21300000, guid: 8c7a13a35a86dc44ab40de9d93374d78, type: 3}
+  sprite_isLeft: 0
 --- !u!50 &1775504224
 Rigidbody2D:
   serializedVersion: 4
@@ -589,7 +595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1860985784}
   m_Layer: 0
-  m_Name: Tower_FirePoint
+  m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
