@@ -236,8 +236,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1844076451}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1860985785}
+        m_TargetAssemblyTypeName: Cannon, Assembly-CSharp
         m_MethodName: SetTowerRange
         m_Mode: 0
         m_Arguments:
@@ -1579,8 +1579,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1844076451}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1860985785}
+        m_TargetAssemblyTypeName: Cannon, Assembly-CSharp
         m_MethodName: SetCannonAngle
         m_Mode: 0
         m_Arguments:
@@ -2782,8 +2782,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1844076451}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1860985785}
+        m_TargetAssemblyTypeName: Cannon, Assembly-CSharp
         m_MethodName: SetCannonCooldown
         m_Mode: 0
         m_Arguments:
@@ -3264,8 +3264,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1844076451}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1860985785}
+        m_TargetAssemblyTypeName: Cannon, Assembly-CSharp
         m_MethodName: SetSprayModifier
         m_Mode: 0
         m_Arguments:
@@ -3399,8 +3399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d9e13d0b81745478a62306f6831b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite_right: {fileID: 21300000, guid: 95a81e11dab260e4491c1cb4d5f5ae54, type: 3}
-  sprite_left: {fileID: 21300000, guid: 8c7a13a35a86dc44ab40de9d93374d78, type: 3}
+  _spriteRight: {fileID: 21300000, guid: 95a81e11dab260e4491c1cb4d5f5ae54, type: 3}
+  _spriteLeft: {fileID: 21300000, guid: 8c7a13a35a86dc44ab40de9d93374d78, type: 3}
+  _movementSpeedText: {fileID: 337278653}
 --- !u!50 &1775504224
 Rigidbody2D:
   serializedVersion: 4
@@ -3434,7 +3435,6 @@ GameObject:
   - component: {fileID: 1844076449}
   - component: {fileID: 1844076448}
   - component: {fileID: 1844076450}
-  - component: {fileID: 1844076451}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -3530,23 +3530,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1844076451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844076446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f762fbeb692e804491dbad4a792aa25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MovementSpeedText: {fileID: 337278653}
-  CannonAngleText: {fileID: 1715576627}
-  SprayModifierText: {fileID: 65123226}
-  TowerRangeText: {fileID: 1128376477}
-  CannonCooldownText: {fileID: 322876425}
 --- !u!1 &1860985783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3590,7 +3573,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c61ab730a59e845a78ad638683fa07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6347965362970429355, guid: 5b73e2d9658f7e246a2c599587a7e332, type: 3}
+  _projectile: {fileID: 6347965362970429355, guid: 5b73e2d9658f7e246a2c599587a7e332, type: 3}
+  _cannonAngleText: {fileID: 1715576627}
+  _sprayModifierText: {fileID: 65123226}
+  _towerRangeText: {fileID: 1128376477}
+  _cannonCooldownText: {fileID: 322876425}
 --- !u!1 &1927409848
 GameObject:
   m_ObjectHideFlags: 0
@@ -3704,8 +3691,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1844076451}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1775504223}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
         m_MethodName: SetMovementSpeed
         m_Mode: 0
         m_Arguments:

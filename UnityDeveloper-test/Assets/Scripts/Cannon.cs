@@ -1,35 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cannon : MonoBehaviour // Object A
 {
-    public GameObject projectile;
+    [SerializeField]
+    private GameObject _projectile;
+    [SerializeField]
+    private GameObject _cannonAngleText;
+    [SerializeField]
+    private GameObject _sprayModifierText;
+    [SerializeField]
+    private GameObject _towerRangeText;
+    [SerializeField]
+    private GameObject _cannonCooldownText;
 
-    Enemy en;
-    Rigidbody2D proj;
-    GameObject enemy; // Object B
-    GameObject firePoint; // Object A
-    public float shootingRange { get; set; } // Object A detection range
-    float projectileWeight; // Mass of projectile
-    Vector2 enemyPosition; // Current position of enemy (object B)
-    public float cannonAngle { get; set; } // Angle for projectile launch
-    Vector2 enemySpeed; // Speed of object B
-    float projectileSpeed; // Velocity for projectile launch
-    float cannonNextShot; // Time for next shot
-    public float cannonCooldown { get; set; } // Cooldown object A cannon
-    float enemyDist; // Distantion to object B from object A
-    public float projectileSpray { get; set; } // Projectile spray modifier
+    private GameObject _enemy; // Object B
+    private GameObject _firePoint; // Object A
+    private float _shootingRange; // Object A detection range
+    private float _projectileWeight; // Mass of projectile
+    private Vector2 _enemyPosition; // Current position of enemy (object B)
+    private float _cannonAngle; // Angle for projectile launch
+    private Vector2 _enemySpeed; // Speed of object B
+    private float _projectileSpeed; // Velocity for projectile launch
+    private float _cannonNextShot; // Time for next shot
+    private float _cannonCooldown; // Cooldown object A cannon
+    private float _enemyDist; // Distantion to object B from object A
+    private float _projectileSpray; // Projectile spray modifier
 
     // Start is called before the first frame update, initialization of our main object A variables
     void Start()
     {
-        proj = projectile.GetComponent<Rigidbody2D>();
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
-        en = enemy.GetComponent<Enemy>();
-        firePoint = gameObject;
-        projectileWeight = proj.mass;
-        cannonNextShot = Time.time;
+        _cannonAngle = 45;
+        _projectileSpray = 1;
+        _shootingRange = 13;
+        _cannonCooldown = 0.0f;
+
+        _cannonAngleText.GetComponent<Text>().text = _cannonAngle.ToString();
+        _sprayModifierText.GetComponent<Text>().text = _projectileSpray.ToString();
+        _towerRangeText.GetComponent<Text>().text = _shootingRange.ToString();
+        _cannonCooldownText.GetComponent<Text>().text = _cannonCooldown.ToString();
+
+        _enemy = GameObject.FindGameObjectWithTag("Enemy");
+        _firePoint = gameObject;
+        _projectileWeight = _projectile.GetComponent<Rigidbody2D>().mass;
+        _cannonNextShot = Time.time;
+
         StartCoroutine("Shoot");
     }
 
@@ -37,21 +54,21 @@ public class Cannon : MonoBehaviour // Object A
     {
         for (; ; )
         {
-            enemyPosition = enemy.transform.position;
-            enemyDist = Vector2.Distance(enemy.transform.position, firePoint.transform.position); // Getting object B current position
-            if (enemyDist <= shootingRange)
+            _enemyPosition = _enemy.transform.position;
+            _enemyDist = Vector2.Distance(_enemy.transform.position, _firePoint.transform.position); // Getting object B current position
+            if (_enemyDist <= _shootingRange)
             {
-                if (Time.time > cannonNextShot)
+                if (Time.time > _cannonNextShot)
                 {
-                    enemyPosition = enemy.transform.position;
-                    enemySpeed = enemy.GetComponent<Rigidbody2D>().velocity;
-                    firePoint.transform.rotation = Quaternion.Euler(0, 0, cannonAngle); // Setting our cannon angle
-                    float projectileSpeedX = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.x, projectileWeight, en.MoveRight).x;
-                    float projectileSpeedY = VelocityCalc(enemyPosition, cannonAngle, enemySpeed.y, projectileWeight, en.MoveRight).y;
-                    projectileSpeed = Mathf.Sqrt((projectileSpeedX * projectileSpeedX) + (projectileSpeedY * projectileSpeedY));
-                    Rigidbody2D p = Instantiate(proj, firePoint.transform.position, firePoint.transform.rotation);
-                    p.velocity = transform.right * projectileSpeed; // setting our 
-                    cannonNextShot = Time.time + cannonCooldown;
+                    _enemyPosition = _enemy.transform.position;
+                    _enemySpeed = _enemy.GetComponent<Rigidbody2D>().velocity;
+                    _firePoint.transform.rotation = Quaternion.Euler(0, 0, _cannonAngle); // Setting cannon angle
+                    float projectileSpeedX = VelocityCalc(_enemyPosition, _cannonAngle, _enemySpeed.x, _projectileWeight).x;
+                    float projectileSpeedY = VelocityCalc(_enemyPosition, _cannonAngle, _enemySpeed.y, _projectileWeight).y;
+                    _projectileSpeed = Mathf.Sqrt((projectileSpeedX * projectileSpeedX) + (projectileSpeedY * projectileSpeedY));
+                    Rigidbody2D p = Instantiate(_projectile.GetComponent<Rigidbody2D>(), _firePoint.transform.position, _firePoint.transform.rotation);
+                    p.velocity = transform.right * _projectileSpeed;
+                    _cannonNextShot = Time.time + _cannonCooldown;
                 }
             }
             yield return new WaitForSeconds(.01f);
@@ -59,7 +76,7 @@ public class Cannon : MonoBehaviour // Object A
     }
 
     // Function for finding optimal velocity of projectile
-    Vector2 VelocityCalc(Vector2 destination, float angle, float enemySpeed, float projectileMass, bool MoveRight)
+    private Vector2 VelocityCalc(Vector2 destination, float angle, float enemySpeed, float projectileMass)
     {
         Vector2 dir = new Vector2(destination.x - transform.position.x, destination.y - transform.position.y);
         float height = dir.y;
@@ -69,14 +86,14 @@ public class Cannon : MonoBehaviour // Object A
         dir.y = dist * Mathf.Tan(a);
         dist += height / Mathf.Tan(a);
         float velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-        float time = (velocity * 2 * Mathf.Sin(a*2f)) / (Physics2D.gravity.y);
-        if (MoveRight)
+        float time = (velocity * 2 * Mathf.Sin(a*2f)) / (Physics2D.gravity.y+projectileMass);
+        if (enemySpeed>0)
         {
-            dir = new Vector2((destination.x - enemySpeed* Mathf.Tan(a*1.5f) * time) * Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
+            dir = new Vector2((destination.x - enemySpeed* Mathf.Tan(a*1.5f) * time) * Random.Range(1, _projectileSpray) - transform.position.x, destination.y - transform.position.y);
         }
         else
         {
-            dir = new Vector2((destination.x - enemySpeed * Mathf.Tan(a) * time) * Random.Range(1, projectileSpray) - transform.position.x, destination.y - transform.position.y);
+            dir = new Vector2((destination.x - enemySpeed * Mathf.Tan(a) * time) * Random.Range(1, _projectileSpray) - transform.position.x, destination.y - transform.position.y);
         }
         height = dir.y;
         dir.y = 0;
@@ -87,4 +104,29 @@ public class Cannon : MonoBehaviour // Object A
         velocity = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         return velocity * dir.normalized;
     }
+
+    public void SetCannonAngle(float angle)
+    {
+        _cannonAngle = angle;
+        _cannonAngleText.GetComponent<Text>().text = angle.ToString();
+    }
+
+    public void SetSprayModifier(float spraymod)
+    {
+        _projectileSpray = spraymod;
+        _sprayModifierText.GetComponent<Text>().text = spraymod.ToString();
+    }
+
+    public void SetTowerRange(float range)
+    {
+        _shootingRange = range;
+        _towerRangeText.GetComponent<Text>().text = range.ToString();
+    }
+
+    public void SetCannonCooldown(float cooldown)
+    {
+        _cannonCooldown = cooldown;
+        _cannonCooldownText.GetComponent<Text>().text = cooldown.ToString();
+    }
+
 }
