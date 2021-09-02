@@ -3289,6 +3289,7 @@ GameObject:
   - component: {fileID: 1775504222}
   - component: {fileID: 1775504223}
   - component: {fileID: 1775504224}
+  - component: {fileID: 1775504225}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -3355,7 +3356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775504219}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -232.58, z: -6588.0005}
+  m_LocalPosition: {x: 219, y: -232.58, z: -6588.0005}
   m_LocalScale: {x: 31.164698, y: 35.222095, z: 73.200005}
   m_Children: []
   m_Father: {fileID: 1239172654}
@@ -3423,6 +3424,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1775504225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775504219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358e9549994cd3544b59f50e80a6e46c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1844076446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,6 +3553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1860985784}
   - component: {fileID: 1860985785}
+  - component: {fileID: 1860985786}
   m_Layer: 0
   m_Name: Firepoint
   m_TagString: Firepoint
@@ -3578,6 +3592,18 @@ MonoBehaviour:
   _sprayModifierText: {fileID: 65123226}
   _towerRangeText: {fileID: 1128376477}
   _cannonCooldownText: {fileID: 322876425}
+--- !u!114 &1860985786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860985783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358e9549994cd3544b59f50e80a6e46c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1927409848
 GameObject:
   m_ObjectHideFlags: 0

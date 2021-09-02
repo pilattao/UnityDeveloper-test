@@ -3,77 +3,82 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour // Object B
+public class Enemy : MonoBehaviour, IEnemy // Object B
 {
     [SerializeField]
-    private Sprite _spriteRight; // Sprite images for object B moving directions
+    private Sprite _spriteRight; // Sprite image for object B moving directions
     [SerializeField]
-    private Sprite _spriteLeft; // Sprite images for object B moving directions
+    private Sprite _spriteLeft; // Sprite image for object B moving directions
     [SerializeField]
-    private GameObject _movementSpeedText;
+    private GameObject _movementSpeedText; // Options menu parameter text
 
-    public float EnemySpeed { get; private set; } // Speed of object B
+    private VelocityManager _velocityManager;
 
-    private bool _moveRight; // Bool variable for movement direction toggle
-    private SpriteRenderer _spriteRenderer;
-    private Rigidbody2D _enemyRB;
-    private bool _spriteIsRight; // Bool variables for sprite direction toggle
-    private bool _spriteIsLeft;
+    public Vector2 EnemySpeed { get; private set; } // Speed of Object B
+    public Vector2 EnemyPosition { get; private set; } // Position of Object B
 
-    // Using awake to get this variables set before start
+    private float _speedModifier; // Modifier of enemy direction
+
     void Awake()
     {
-        EnemySpeed = 1.5f;
+        _velocityManager = GetComponent<VelocityManager>();
     }
 
-    // Start is called before the first frame update, initialization of our main object B variables
+    // Initialization of our main object B variables
     void Start()
     {
-        _enemyRB = GetComponent<Rigidbody2D>();
-        _enemyRB.velocity = new Vector2(-EnemySpeed, 0.0f);
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _speedModifier = 1;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(1.5f, 0);
 
         StartCoroutine("Patrol");
     }
 
-    // Update is called once per frame, movement of object B and sprite changes
+    // Movement of Object B update
     void Update()
     {
-        if (_moveRight)
-        {
-            _spriteIsLeft = false;
-            _enemyRB.velocity = new Vector2(EnemySpeed, 0.0f);
-            if(!_spriteIsRight)
-            {
-                _spriteRenderer.sprite = _spriteRight;
-                _spriteIsRight = true;
-            }
-        }
-        else
-        {
-            _spriteIsRight = false;
-            _enemyRB.velocity = new Vector2(-EnemySpeed, 0.0f);
-            if (!_spriteIsLeft)
-            {
-                _spriteRenderer.sprite = _spriteLeft;
-                _spriteIsLeft = true;
-            }
-        }
+        EnemyPosition = GetComponent<Transform>().position;
+        EnemySpeed = GetComponent<Rigidbody2D>().velocity;
     }
 
-    //Changing object B movement direciton
-    IEnumerator Patrol()
+    // Changing object B movement direciton and sprite
+    public IEnumerator Patrol()
     {
-        for(; ; )
+        for (; ; )
         {
-            _moveRight = !_moveRight;
+            _speedModifier = -_speedModifier;
+            _velocityManager.ChangeSpeed(GetComponent<Rigidbody2D>().velocity * -1, GetComponent<Rigidbody2D>());
+            if (GetComponent<Rigidbody2D>().velocity.x > 0)
+            {
+                GetComponent<SpriteRenderer>().sprite = _spriteRight;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().sprite = _spriteLeft;
+            }
             yield return new WaitForSeconds(3f);
         }
     }
 
+    // Options menu controller methods
     public void SetMovementSpeed(float speed)
     {
-        EnemySpeed = speed;
+        if (GetComponent<Rigidbody2D>().velocity.x > 0)
+        {
+            _velocityManager.ChangeSpeed(new Vector2(speed, 0), GetComponent<Rigidbody2D>());
+        }
+        else
+        {
+            _velocityManager.ChangeSpeed(new Vector2(-speed, 0), GetComponent<Rigidbody2D>());
+        }
         _movementSpeedText.GetComponent<Text>().text = speed.ToString();
+    }
+
+    public void OnHit(Collider2D hitInfo)
+    {
+        Debug.Log("Ouch!");
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        OnHit(collision);
     }
 }
